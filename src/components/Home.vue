@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>HOLA</p>
+    <p>ya po qué chucha</p>
   </div>
 </template>
 
