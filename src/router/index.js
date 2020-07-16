@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import { BootstrapVue } from 'bootstrap-vue';
 import Home from '../components/Data.vue';
 
 Vue.use(VueRouter);
+Vue.use(BootstrapVue);
 
 const router = new VueRouter({
   mode: 'history',
@@ -10,7 +12,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      name: 'Cálculo de sueldo - Comunal Valparaíso',
+      name: 'Home',
       component: Home,
     },
   ],

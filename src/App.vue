@@ -25,4 +25,10 @@
     }
   }
 }
+
+div {
+  align-content: center;
+  margin: auto;
+  max-width: 800px;
+}
 </style>
