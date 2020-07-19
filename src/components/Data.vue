@@ -7,7 +7,7 @@
       <b-navbar-brand style="max-width: 550px; margin: auto;" href="#">
         <b-img-lazy rounded="circle" width="40px" fluid src="https://i.imgur.com/KWG4mnv.jpg">
         </b-img-lazy>
-        Depto. Educación
+        <h2>Depto. Educación</h2>
       </b-navbar-brand>
 
       <b-navbar-toggle style="margin-right: auto;" target="nav-collapse" right></b-navbar-toggle>
@@ -532,6 +532,9 @@ export default {
   },
   methods: {
     calcularSueldo() {
+      if (this.FCS.prioritario60 === 0) {
+        this.FCS.prioritario80 = 0;
+      }
       const sueldoBase = this.FCS.horasRegular * this.FCS.valorHora;
       const moviliz = 6921;
       this.horasTotal = this.FCS.horasSEP + this.FCS.horasReemplazo + this.FCS.horasPIE
