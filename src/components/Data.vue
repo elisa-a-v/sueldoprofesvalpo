@@ -29,6 +29,16 @@
               </p>
             </b-dropdown-text>
           </b-nav-item-dropdown>
+          <b-nav-item-dropdown text="Advertencia" align="end">
+            <b-dropdown-text>
+              <p style="text-align: justify; overflow-wrap: break-word;
+              word-wrap: break-word; word-break-wrap: break-word; margin: 10px;">
+                El uso de esta calculadora es sólo a modo referencial, ya que debido a la forma en
+                que esta aplicación realiza los cálculos, es posible que exista una diferencia de
+                menos de $10 con el monto real.
+              </p>
+            </b-dropdown-text>
+          </b-nav-item-dropdown>
           <b-nav-item-dropdown text="Acerca de" align="end">
             <b-dropdown-text>
               <p style="text-align: justify; overflow-wrap: break-word;
