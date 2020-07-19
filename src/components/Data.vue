@@ -15,7 +15,7 @@
       <b-collapse id="nav-collapse" is-nav align="end">
         <b-navbar-nav  align="right">
           <b-nav-item-dropdown text="Instrucciones" align="end">
-            <b-dropdown-text href="https://www.facebook.com/dptoeducacionvalpo/">
+            <b-dropdown-text>
               <p style="text-align: justify; overflow-wrap: break-word;
               word-wrap: break-word; word-break-wrap: break-word; margin: 10px;">
                 Ingrese la información que se solicita en el formulario a continuación.
@@ -26,6 +26,24 @@
                 <br>Puede cambiar los valores del formulario las veces que quiera, pero luego
                 recuerde siempre presionar el botón "Calcular Sueldo" para volver a actualizar
                 los datos de la tabla.
+              </p>
+            </b-dropdown-text>
+          </b-nav-item-dropdown>
+          <b-nav-item-dropdown text="Acerca de" align="end">
+            <b-dropdown-text>
+              <p style="text-align: justify; overflow-wrap: break-word;
+              word-wrap: break-word; word-break-wrap: break-word; margin: 10px;">
+                Esta <b>calculadora de sueldo</b> es producto del trabajo del Departamento de
+                Educación del Comunal Valparaíso del Colegio de Profesoras y Profesores.
+                <br>El Departamento, que está integrado por un grupo de docentes en ejercicio
+                de la comuna de Valparaíso, está abierto a la colaboración de cualquier persona
+                del gremio que tenga interés en participar. Si quieres trabajar con nosotras y
+                nosotros, escríbenos al siguiente correo:<br>
+              </p>
+              <p style="text-align: center;">
+                <a style="text-align: center;" href="mailto:depto.educacioncomunal@gmail.com">
+                  depto.educacioncomunal@gmail.com
+                </a>
               </p>
             </b-dropdown-text>
           </b-nav-item-dropdown>
@@ -52,11 +70,12 @@
       </p>
     </div>
     <b-container class="body">
-      <table id="tabla-colilla" class="table table-hover table-bordered table-striped table-sm">
+      <table id="tabla-colilla"
+             class="table table-bordered table-striped table-sm table-responsive-sm">
         <thead>
           <tr>
             <th scope="col">Código</th>
-            <th scope="col">Ítem</th>
+            <th class="d" scope="col">Ítem</th>
             <th scope="col">Monto</th>
           </tr>
         </thead>
@@ -83,7 +102,7 @@
     <h4>
       <br>Formulario
     </h4>
-    <table class="table table-hover table-borderless">
+    <table class="table table-hover table-borderless table-striped">
       <tbody>
         <tr>
           <td class="i">
@@ -481,7 +500,7 @@ export default {
       asigDesPro1 *= this.FCS.bieniosCpeip / 15;
       let tramoProgresion = 14315;
       let tramoFija = 0;
-      if (this.FCS.tramo === 'Acceso' && this.FCS.tramo === 'Inicial') {
+      if (this.FCS.tramo === 'Acceso' || this.FCS.tramo === 'Inicial') {
         tramoProgresion = 14315;
       } else if (this.FCS.tramo === 'Temprano') {
         tramoProgresion = 47831;
@@ -520,11 +539,12 @@ export default {
       amplLicOtros *= this.FCS.valorHora * this.FCS.horasReemplazo;
       amplLicOtros += (this.FCS.valorHora * this.FCS.horasReemplazo);
       amplLicOtros = Math.round(amplLicOtros);
-      let asigExper = this.horasTotal * (0.0338 + (0.0333 * (this.FCS.bieniosCormuval - 1)));
+      let asigExper = sueldoBase * (0.0338 + (0.0333 * (this.FCS.bieniosCormuval - 1)));
       asigExper = Math.round(asigExper);
-      let asigPrio = (sueldoBase * 0.2) + (65689 * (this.horasTotal / 44));
+      let asigPrio = (asigDesPro * 0.2) + (65689 * (this.horasTotal / 44));
       let prio = 0;
-      if (this.FCS.tramo === ('Avanzado' || 'Experto I' || 'Experto II')) {
+      if ((this.FCS.tramo === 'Avanzado') || (this.FCS.tramo === 'Experto I')
+        || (this.FCS.tramo === 'Experto II')) {
         prio = 1;
       }
       asigPrio *= this.FCS.prioritario80 * prio;
