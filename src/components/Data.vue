@@ -2,40 +2,39 @@
 <!--<html lang="es">-->
 <template>
 <span>
-  <div style="width: content-box">
+  <div>
     <b-navbar fixed="top" toggleable="true" type="dark" variant="dark">
-      <b-navbar-brand href="#">
-        <b-img-lazy rounded="circle" width="50px" fluid src="https://i.imgur.com/KWG4mnv.jpg">
+      <b-navbar-brand style="max-width: 550px; margin: auto;" href="#">
+        <b-img-lazy rounded="circle" width="40px" fluid src="https://i.imgur.com/KWG4mnv.jpg">
         </b-img-lazy>
         Depto. Educación
       </b-navbar-brand>
 
-      <b-navbar-toggle target="nav-collapse" right></b-navbar-toggle>
+      <b-navbar-toggle style="margin-right: auto;" target="nav-collapse" right></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav align="end">
         <b-navbar-nav  align="right">
-          <b-nav-item-dropdown text="Instrucciones" align="end">
+          <b-nav-item-dropdown text="INSTRUCCIONES" align="end">
             <b-dropdown-text>
               <p style="text-align: justify; overflow-wrap: break-word;
               word-wrap: break-word; word-break-wrap: break-word; margin: 10px;">
-                Ingrese la información que se solicita en el formulario a continuación.
-                Cuando haya ingresado toda la información
-                correctamente, presione el botón
-                "Calcular Sueldo" y verá el detalle por asignación que usted debería recibir
+                Ingresa la información que se solicita en el formulario de más abajo.
+                Cuando hayas ingresado toda la información correctamente, presiona el botón
+                "Calcular Sueldo" y verás el detalle por asignación que deberías recibir
                 cada mes, actualizado en la tabla de arriba.
-                <br>Puede cambiar los valores del formulario las veces que quiera, pero luego
-                recuerde siempre presionar el botón "Calcular Sueldo" para volver a actualizar
+                <br>Puedes cambiar los valores del formulario las veces que quieras, pero luego
+                recuerda siempre presionar el botón "Calcular Sueldo" para volver a actualizar
                 los datos de la tabla.
               </p>
             </b-dropdown-text>
           </b-nav-item-dropdown>
-          <b-nav-item-dropdown text="Advertencia" align="end">
+          <b-nav-item-dropdown text="Consideraciones" align="end">
             <b-dropdown-text>
               <p style="text-align: justify; overflow-wrap: break-word;
               word-wrap: break-word; word-break-wrap: break-word; margin: 10px;">
-                El uso de esta calculadora es sólo a modo referencial, ya que debido a la forma en
-                que esta aplicación realiza los cálculos, es posible que exista una diferencia de
-                menos de $10 con el monto real.
+                Esta calculadora es sólo para uso referencial, ya que, por la forma en
+                que realiza los cálculos, es posible que exista una diferencia de
+                menos de $5 con el monto real.
               </p>
             </b-dropdown-text>
           </b-nav-item-dropdown>
@@ -43,9 +42,9 @@
             <b-dropdown-text>
               <p style="text-align: justify; overflow-wrap: break-word;
               word-wrap: break-word; word-break-wrap: break-word; margin: 10px;">
-                Esta <b>calculadora de sueldo</b> es producto del trabajo del Departamento de
-                Educación del Comunal Valparaíso del Colegio de Profesoras y Profesores.
-                <br>El Departamento, que está integrado por un grupo de docentes en ejercicio
+                Esta <b>calculadora de sueldo</b> es fruto del trabajo del <b>Departamento de
+                Educación</b> del Comunal Valparaíso del Colegio de Profesoras y Profesores.
+                <br>El Departamento, que está integrado por un pequeño grupo de docentes
                 de la comuna de Valparaíso, está abierto a la colaboración de cualquier persona
                 del gremio que tenga interés en participar. Si quieres trabajar con nosotras y
                 nosotros, escríbenos al siguiente correo:<br>
@@ -57,12 +56,31 @@
               </p>
             </b-dropdown-text>
           </b-nav-item-dropdown>
-          <b-nav-item href="https://sites.google.com/view/dptoeducacionvalparaiso" align="end">
-            Nuestro sitio web
-          </b-nav-item>
           <b-nav-item-dropdown text="RRSS" align="end">
             <b-dropdown-item href="https://www.facebook.com/dptoeducacionvalpo/">Facebook</b-dropdown-item>
             <b-dropdown-item href="https://www.instagram.com/dpto.educacion_valparaiso/">Instagram</b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item-dropdown text="Contacto" align="end">
+            <b-dropdown-text>
+              <p style="text-align: justify; overflow-wrap: break-word;
+              word-wrap: break-word; word-break-wrap: break-word; margin: 10px;">
+                Si necesitas contactarte con el Departamento de Educación,
+                escríbenos al siguiente correo y te contestaremos a la brevedad:<br>
+              </p>
+              <p style="text-align: center;">
+                <a style="text-align: center;" href="mailto:depto.educacioncomunal@gmail.com">
+                  depto.educacioncomunal@gmail.com
+                </a>
+              </p>
+            </b-dropdown-text>
+          </b-nav-item-dropdown>
+          <b-nav-item href="https://sites.google.com/view/dptoeducacionvalparaiso" align="end">
+            Nuestro sitio web
+          </b-nav-item>
+          <b-nav-item-dropdown text="Más información" align="end">
+            <b-dropdown-item href="https://www.cpeip.cl/valores-2020-brp-y-asignaciones-carrera-docente/">
+              Valores 2020 asignaciones
+            </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -119,17 +137,19 @@
             Valor hora:
             <div>
              <b-button v-b-toggle.collapse-1 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse id="collapse-1" class="mt-2">
+              <b-collapse accordion="info" id="collapse-1" class="mt-2">
                 <b-card
                   style="max-width: 20rem;"
                   align="left"
                 >
-                  <b-card-text>
-                    El valor hora para calcular la Remuneración Básica Mínima Nacional para
-                    docentes en Chile depende del nivel en el que se desempeñe la o el docente.
-                    Para el año 2020 los valores son:
-                    <br>Enseñanza básica: $14.403
-                    <br>Enseñanza media: $15.155
+                  <b-card-text class="text-right">
+                    <small>
+                      El valor hora para calcular la Remuneración Básica Mínima Nacional para
+                      docentes en Chile depende del nivel en el que se desempeñe la o el docente.
+                      Para el año 2020 los valores son:
+                      <br><br><b>Enseñanza básica</b><br>$14.403
+                      <br><b>Enseñanza media</b><br> $15.155
+                    </small>
                   </b-card-text>
                 </b-card>
               </b-collapse>
@@ -147,15 +167,17 @@
             Horas por subvención regular:
             <div>
              <b-button v-b-toggle.collapse-2 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse id="collapse-2" class="mt-2">
+              <b-collapse accordion="info" id="collapse-2" class="mt-2">
                 <b-card
                   style="max-width: 20rem;"
                   align="left"
                 >
-                  <b-card-text>
-                    Cantidad de horas de contrato que son financiadas con la subvención regular;
-                    es decir, no son horas SEP, ni de reemplazo, ni PIE, etc.
-                    <br>En su liquidación aparece en la parte superior en "JORNADA: XX HRS".
+                  <b-card-text class="text-right">
+                    <small>
+                      Cantidad de horas de contrato que son financiadas con la subvención regular;
+                      es decir, no son horas SEP, ni de reemplazo, ni PIE, etc.
+                      <br>En su liquidación aparece en la parte superior en "JORNADA: XX HRS".
+                    </small>
                   </b-card-text>
                 </b-card>
               </b-collapse>
@@ -172,13 +194,13 @@
             Horas de reemplazo:
             <div>
              <b-button v-b-toggle.collapse-3 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse id="collapse-3" class="mt-2">
+              <b-collapse accordion="info" id="collapse-3" class="mt-2">
                 <b-card
                   style="max-width: 20rem;"
                   align="left"
                 >
-                  <b-card-text>
-                    Horas de reemplazo que realizó durante el mes.
+                  <b-card-text class="text-right">
+                    <small>Horas de reemplazo que realizó durante el mes.</small>
                   </b-card-text>
                 </b-card>
               </b-collapse>
@@ -195,14 +217,16 @@
             Horas SEP:
             <div>
              <b-button v-b-toggle.collapse-4 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse id="collapse-4" class="mt-2">
+              <b-collapse accordion="info" id="collapse-4" class="mt-2">
                 <b-card
                   style="max-width: 20rem;"
                   align="left"
                 >
-                  <b-card-text>
-                    Cantidad de horas financiadas con la Subvención Escolar Preferencial
-                    (ley 20.248).
+                  <b-card-text class="text-right">
+                    <small>
+                      Cantidad de horas financiadas con la Subvención Escolar Preferencial
+                      (ley 20.248).
+                    </small>
                   </b-card-text>
                 </b-card>
               </b-collapse>
@@ -219,13 +243,15 @@
             Horas PIE:
             <div>
              <b-button v-b-toggle.collapse-5 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse id="collapse-5" class="mt-2">
+              <b-collapse accordion="info" id="collapse-5" class="mt-2">
                 <b-card
                   style="max-width: 20rem;"
                   align="left"
                 >
-                  <b-card-text>
-                    Cantidad de horas financiadas con el Programa de Integración Escolar.
+                  <b-card-text class="text-right">
+                    <small>
+                      Cantidad de horas financiadas con el Programa de Integración Escolar.
+                    </small>
                   </b-card-text>
                 </b-card>
               </b-collapse>
@@ -264,14 +290,16 @@
             Bienios reconocidos por CORMUVAL:
             <div>
              <b-button v-b-toggle.collapse-6 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse id="collapse-6" class="mt-2">
+              <b-collapse accordion="info" id="collapse-6" class="mt-2">
                 <b-card
                   style="max-width: 20rem;"
                   align="left"
                 >
-                  <b-card-text>
-                    Número de bienios (período de 2 años completos) reconocidos por
-                    la Corporación Municipal de Valparaíso.
+                  <b-card-text class="text-right">
+                    <small>
+                      Número de bienios (período de 2 años completos) reconocidos por
+                      la Corporación Municipal de Valparaíso.
+                    </small>
                   </b-card-text>
                 </b-card>
               </b-collapse>
@@ -288,14 +316,16 @@
             Bienios reconocidos por CPEIP:
             <div>
              <b-button v-b-toggle.collapse-7 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse id="collapse-7" class="mt-2">
+              <b-collapse accordion="info" id="collapse-7" class="mt-2">
                 <b-card
                   style="max-width: 20rem;"
                   align="left"
                 >
-                  <b-card-text>
-                    Número de bienios (período de 2 años completos) reconocidos por
-                    el Centro de Perfeccionamiento, Experimentación e Investigaciones Pedagógicas.
+                  <b-card-text class="text-right">
+                    <small>
+                      Número de bienios (período de 2 años completos) reconocidos por
+                      el Centro de Perfeccionamiento, Experimentación e Investigaciones Pedagógicas.
+                    </small>
                   </b-card-text>
                 </b-card>
               </b-collapse>
@@ -312,13 +342,13 @@
             Tramo:
             <div>
              <b-button v-b-toggle.collapse-8 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse id="collapse-8" class="mt-2">
+              <b-collapse accordion="info" id="collapse-8" class="mt-2">
                 <b-card
                   style="max-width: 20rem;"
                   align="left"
                 >
-                  <b-card-text>
-                    Tramo de la Carrera Profesional Docente en el que se encuentra.
+                  <b-card-text class="text-right">
+                    <small>Tramo de la Carrera Docente en el que se encuentra.</small>
                   </b-card-text>
                 </b-card>
               </b-collapse>
@@ -345,16 +375,20 @@
             Título para BRP:
             <div>
              <b-button v-b-toggle.collapse-9 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse id="collapse-9" class="mt-2">
+              <b-collapse accordion="info" id="collapse-9" class="mt-2">
                 <b-card
                   style="max-width: 20rem;"
                   align="left"
                 >
-                  <b-card-text>
-                    El Bono de Reconocimiento Profesional se otorga a profesionales titulados o
-                    tituladas, y tiene dos niveles. Para el año 2020 los montos son los siguientes:
-                    <br>Sólo título, sin mención: $253.076
-                    <br>Título y mención: $337.436
+                  <b-card-text class="text-right">
+                    <small style="text-align: justify;">
+                      El <b>Bono de Reconocimiento Profesional</b> tiene dos niveles, dependiendo
+                      de la presencia o ausencia de una "mención" en el título profesional.
+                      <br>Los montos para contratos de 30 horas
+                      o más, al año 2020 son:
+                      <br><br><b>Sin mención</b><br>253.076
+                      <br><b>Con mención</b><br>337.436
+                    </small>
                   </b-card-text>
                 </b-card>
               </b-collapse>
@@ -374,20 +408,21 @@
             Trabaja en un establecimiento con 60% de estudiantes prioritarios o más:
             <div>
              <b-button v-b-toggle.collapse-10 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse id="collapse-10" class="mt-2">
+              <b-collapse accordion="info" id="collapse-10" class="mt-2">
                 <b-card
                   style="max-width: 20rem;"
                   align="left"
                 >
-                  <b-card-text>
-                    La <b>Asignación por docencia en establecimientos con alta concentración de
-                    alumnos prioritarios</b> se paga a todos y todas las docentes que trabajan
-                    en establecimientos con un 60% de alumnos prioritarios o más.<br>
-                    <a href=
-       "https://www.cpeip.cl/wp-content/uploads/2019/06/Porcentaje-alumnos-prioritarios-2019.pdf">
-                      Click aquí
-                    </a>
-                     para ver porcentaje de alumnos prioritarios por establecimiento.
+                  <b-card-text class="text-right">
+                    <small>La <b>Asignación por docencia en establecimientos con alta concentración
+                      de alumnos prioritarios</b> se paga a todos y todas las docentes que trabajan
+                      en establecimientos con un 60% de alumnos prioritarios o más.<br>
+                      <a href=
+         "https://www.cpeip.cl/wp-content/uploads/2019/06/Porcentaje-alumnos-prioritarios-2019.pdf">
+                        Click aquí
+                      </a>
+                       para ver porcentaje de alumnos prioritarios por establecimiento.
+                    </small>
                   </b-card-text>
                 </b-card>
               </b-collapse>
@@ -405,21 +440,23 @@
             Trabaja en un establecimiento con 80% de estudiantes prioritarios o más:
             <div>
              <b-button v-b-toggle.collapse-11 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse id="collapse-11" class="mt-2">
+              <b-collapse accordion="info" id="collapse-11" class="mt-2">
                 <b-card
                   style="max-width: 20rem;"
                   align="left"
                 >
-                  <b-card-text>
-                    La <b>Asignación por docencia en establecimientos con alta concentración de
-                    alumnos prioritarios</b> aumenta para docentes en los tramos Avanzado,
-                    Experto I y Experto II que trabajen en establecimientos con 80%
-                    de estudiantes prioritarios o más.<br>
-                    <a href=
-       "https://www.cpeip.cl/wp-content/uploads/2019/06/Porcentaje-alumnos-prioritarios-2019.pdf">
-                      Click aquí
-                    </a>
-                     para ver porcentaje de alumnos prioritarios por establecimiento.
+                  <b-card-text class="text-right">
+                    <small>
+                      La <b>Asignación por docencia en establecimientos con alta concentración de
+                      alumnos prioritarios</b> aumenta para docentes en los tramos Avanzado,
+                      Experto I y Experto II que trabajen en establecimientos con 80%
+                      de estudiantes prioritarios o más.<br>
+                      <a href=
+         "https://www.cpeip.cl/wp-content/uploads/2019/06/Porcentaje-alumnos-prioritarios-2019.pdf">
+                        Click aquí
+                      </a>
+                       para ver porcentaje de alumnos prioritarios por establecimiento.
+                    </small>
                   </b-card-text>
                 </b-card>
               </b-collapse>
@@ -458,14 +495,14 @@ export default {
       datos: [],
       show: true,
       FCS: {
-        valorHora: 0,
+        valorHora: 14403,
         horasRegular: 0,
         horasReemplazo: 0,
         horasSEP: 0,
         horasPIE: 0,
         bieniosCormuval: 0,
         bieniosCpeip: 0,
-        tramo: '',
+        tramo: 'Acceso',
         tramoProgresion: 0,
         tramoFija: 0,
         nivelBRP: 0,
@@ -599,6 +636,10 @@ select {
 header {
   margin-top: 90px;
   margin-left: 10px;
+}
+
+b-card-text {
+  text-align: right !important;
 }
 
 .bottom-margin {
