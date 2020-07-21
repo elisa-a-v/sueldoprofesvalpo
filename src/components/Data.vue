@@ -137,7 +137,7 @@
     <table class="table table-hover table-borderless table-striped">
       <thead>
         <tr>
-          <th style="max-width: 40%" scope="col"></th>
+          <th scope="col"></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -145,48 +145,61 @@
         <tr v-for="fila in filasPosibles" :key="fila">
           <template v-if="(fila.id !== 'horasTotal')
               && !(fila.id === 'prioritario80' && FCS.prioritario60.value !==1)" class="clearfix">
-            <div class="clearfix">
-              <td style="float: left;">
+            <span class="clearfix" style="width: 100%;">
+              <td style="width: 600px">
                 <b-container class="text-left">
-<!--                  <b-button data-inline>-->
-                    <b-icon icon="info-square-fill" v-b-toggle=fila.tog pill size="sm"
-                          variant="secondary" @click="info(fila.idInfo, fila.info)"></b-icon>
-<!--                  </b-button>-->
-                  {{ fila.nombre }}
+                <b-icon icon="info-square-fill" v-b-toggle=fila.tog size="sm"
+                        variant="secondary" @click="info(fila.idInfo, fila.info)"></b-icon>
+                {{ fila.nombre }}
+                <b-form-group>
+                    <b-form-select v-if="fila.id === 'valorHora'"
+                                :id=fila.id v-model=fila.value>
+                      <b-form-select-option v-bind:value="14403">
+                        Enseñanza básica
+                      </b-form-select-option>
+                      <b-form-select-option v-bind:value="15155">
+                        Enseñanza media
+                      </b-form-select-option>
+                    </b-form-select>
+                    <b-form-select v-if="fila.id === 'horasRegular'
+                    || fila.id === 'horasReemplazo' || fila.id === 'horasSEP'
+                    || fila.id === 'horasPIE'" :id=fila.id v-model=fila.value>
+                      <b-form-select-option v-for="i in horasPosibles" :key="i" v-bind:value="i">
+                        {{ i }}
+                      </b-form-select-option>
+                    </b-form-select>
+                    <b-form-select v-if="fila.id === 'bieniosCormuval'
+                    || fila.id === 'bieniosCpeip'"
+                    :id=fila.id v-model=fila.value>
+                      <b-form-select-option v-for="i in bieniosPosibles" :key="i" v-bind:value="i">
+                        {{ i }}
+                      </b-form-select-option>
+                    </b-form-select>
+                    <b-form-select v-if="fila.id === 'tramo'"
+                            :id=fila.id v-model=fila.value>
+                      <b-form-select-option v-for="i in tramosPosibles" :key="i" v-bind:value="i">
+                        {{ i }}
+                      </b-form-select-option>
+                    </b-form-select>
+                    <b-form-select v-if="fila.id === 'nivelBRP'"
+                            :id=fila.id v-model=fila.value>
+                      <b-form-select-option v-bind:value=0>Sin título</b-form-select-option>
+                      <b-form-select-option v-bind:value=253076>
+                        Con título, sin mención
+                      </b-form-select-option>
+                      <b-form-select-option v-bind:value=337436>
+                        Con título, con mención
+                      </b-form-select-option>
+                    </b-form-select>
+                    <b-form-select v-if="fila.id === 'prioritario60' || fila.id === 'prioritario80'"
+                            :id=fila.id v-model=fila.value>
+                      <b-form-select-option v-bind:value=0>No</b-form-select-option>
+                      <b-form-select-option v-bind:value=1>Sí</b-form-select-option>
+                    </b-form-select>
+                  </b-form-group>
                 </b-container>
-              </td><br>
-              <td style="float: right; width: 150px;">
-                <select v-if="fila.id === 'valorHora'" :id=fila.id
-                        v-model=fila.value style="width: 150px;">
-                  <option v-bind:value="14403">Enseñanza básica</option>
-                  <option v-bind:value="15155">Enseñanza media</option>
-                </select>
-                <select v-if="fila.id === 'horasRegular' || fila.id === 'horasReemplazo' ||
-                        fila.id === 'horasSEP' || fila.id === 'horasPIE'" :id=fila.id
-                        v-model=fila.value style="width: 150px;">
-                  <option v-for="i in horasPosibles" :key="i" v-bind:value="i">{{ i }}</option>
-                </select>
-                <select v-if="fila.id === 'bieniosCormuval' || fila.id === 'bieniosCpeip'"
-                        :id=fila.id v-model=fila.value style="width: 150px;">
-                  <option v-for="i in bieniosPosibles" :key="i" v-bind:value="i">{{ i }}</option>
-                </select>
-                <select v-if="fila.id === 'tramo'"
-                        :id=fila.id v-model=fila.value style="width: 150px;">
-                  <option v-for="i in tramosPosibles" :key="i" v-bind:value="i">{{ i }}</option>
-                </select>
-                <select v-if="fila.id === 'nivelBRP'"
-                        :id=fila.id v-model=fila.value style="width: 150px;">
-                  <option v-bind:value=0>Sin título</option>
-                  <option v-bind:value=253076>Con título, sin mención</option>
-                  <option v-bind:value=337436>Con título, con mención</option>
-                </select>
-                <select v-if="fila.id === 'prioritario60' || fila.id === 'prioritario80'"
-                        :id=fila.id v-model=fila.value style="width: 150px;">
-                  <option v-bind:value=0>No</option>
-                  <option v-bind:value=1>Sí</option>
-                </select>
               </td>
-            </div>
+            </span>
 
             <b-collapse :id=fila.tog accordion="info" class="mt-2">
               <b-card>
@@ -244,10 +257,11 @@
 <script>
 // import axios from 'axios';
 import Vue from 'vue';
-import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
+import { BootstrapVue, BootstrapVueIcons, FormPlugin } from 'bootstrap-vue';
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
+Vue.use(FormPlugin);
 
 export default {
   name: 'Home',
@@ -539,10 +553,6 @@ div {
 
 span {
   margin: auto;
-}
-
-select {
-  max-width: 90px;
 }
 
 header {
