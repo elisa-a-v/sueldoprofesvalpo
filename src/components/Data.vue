@@ -52,7 +52,7 @@
               </p>
               <p style="text-align: center;">
                 <a style="text-align: center;" href="mailto:depto.educacioncomunal@gmail.com">
-                  depto.educacioncomunal@gmail.com
+                  <b-icon icon="envelope-fill"></b-icon> depto.educacioncomunal@gmail.com
                 </a>
               </p>
             </b-dropdown-text>
@@ -70,20 +70,20 @@
               </p>
               <p style="text-align: center;">
                 <a style="text-align: center;" href="mailto:depto.educacioncomunal@gmail.com">
-                  depto.educacioncomunal@gmail.com
+                  <b-icon icon="envelope-fill"></b-icon> depto.educacioncomunal@gmail.com
                 </a>
               </p>
             </b-dropdown-text>
           </b-nav-item-dropdown>
           <b-nav-item href="https://sites.google.com/view/dptoeducacionvalparaiso" align="end">
-            Nuestro sitio web
+            Nuestro sitio web <b-icon icon="box-arrow-up-right"></b-icon>
           </b-nav-item>
           <b-nav-item-dropdown text="Más información" align="end">
             <b-dropdown-item href="https://www.cpeip.cl/valores-2020-brp-y-asignaciones-carrera-docente/">
-              Valores 2020 asignaciones
+              <b-icon icon="box-arrow-up-right"></b-icon> Valores 2020 asignaciones
             </b-dropdown-item>
             <b-dropdown-item href="https://github.com/elisa-a-v/sueldoprofesvalpo">
-              Repositorio GitHub
+              <b-icon icon="box-arrow-up-right"></b-icon> Repositorio GitHub
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -130,7 +130,7 @@
       </table>
     </b-container>
   </span>
-  <span id="abajo-der">
+  <span id="abajo-der" style="margin: auto;">
     <h4>
       <br>Formulario
     </h4>
@@ -149,39 +149,39 @@
               <td style="float: left;">
                 <b-container class="text-left">
 <!--                  <b-button data-inline>-->
-                    <b-icon icon="info-square" v-b-toggle=fila.tog pill size="sm"
+                    <b-icon icon="info-square-fill" v-b-toggle=fila.tog pill size="sm"
                           variant="secondary" @click="info(fila.idInfo, fila.info)"></b-icon>
 <!--                  </b-button>-->
                   {{ fila.nombre }}
                 </b-container>
-              </td>
-              <td style="float: right;">
+              </td><br>
+              <td style="float: right; width: 150px;">
                 <select v-if="fila.id === 'valorHora'" :id=fila.id
-                        v-model=fila.value style="width: 100px;">
+                        v-model=fila.value style="width: 150px;">
                   <option v-bind:value="14403">Enseñanza básica</option>
                   <option v-bind:value="15155">Enseñanza media</option>
                 </select>
                 <select v-if="fila.id === 'horasRegular' || fila.id === 'horasReemplazo' ||
                         fila.id === 'horasSEP' || fila.id === 'horasPIE'" :id=fila.id
-                        v-model=fila.value style="width: 100px;">
+                        v-model=fila.value style="width: 150px;">
                   <option v-for="i in horasPosibles" :key="i" v-bind:value="i">{{ i }}</option>
                 </select>
                 <select v-if="fila.id === 'bieniosCormuval' || fila.id === 'bieniosCpeip'"
-                        :id=fila.id v-model=fila.value style="width: 100px;">
+                        :id=fila.id v-model=fila.value style="width: 150px;">
                   <option v-for="i in bieniosPosibles" :key="i" v-bind:value="i">{{ i }}</option>
                 </select>
                 <select v-if="fila.id === 'tramo'"
-                        :id=fila.id v-model=fila.value style="width: 100px;">
+                        :id=fila.id v-model=fila.value style="width: 150px;">
                   <option v-for="i in tramosPosibles" :key="i" v-bind:value="i">{{ i }}</option>
                 </select>
                 <select v-if="fila.id === 'nivelBRP'"
-                        :id=fila.id v-model=fila.value style="width: 100px;">
+                        :id=fila.id v-model=fila.value style="width: 150px;">
                   <option v-bind:value=0>Sin título</option>
                   <option v-bind:value=253076>Con título, sin mención</option>
                   <option v-bind:value=337436>Con título, con mención</option>
                 </select>
                 <select v-if="fila.id === 'prioritario60' || fila.id === 'prioritario80'"
-                        :id=fila.id v-model=fila.value style="width: 100px;">
+                        :id=fila.id v-model=fila.value style="width: 150px;">
                   <option v-bind:value=0>No</option>
                   <option v-bind:value=1>Sí</option>
                 </select>
@@ -274,11 +274,11 @@ export default {
           idInfo: 'horasRegularInfo',
           value: 0,
           nombre: 'Horas por subvención regular:',
-          info: 'Cantidad de horas de contrato que son \n'
-            + ' financiadas con la subvención regular;\n'
-            + ' es decir, no son horas SEP, ni de reemplazo, \n'
-            + ' ni PIE, etc.\n'
-            + ' <br>En su liquidación aparece en la parte\n'
+          info: 'Cantidad de horas de contrato que son '
+            + ' financiadas con la subvención regular;'
+            + ' es decir, no son horas SEP, ni de reemplazo, '
+            + ' ni PIE, etc.'
+            + ' <br>En su liquidación aparece en la parte'
             + ' superior en<br><center>"<b>JORNADA: XX HRS</b>".</center>',
         },
         horasReemplazo: {
@@ -310,7 +310,7 @@ export default {
           value: this.horasTotal,
           id: 'horasTotal',
           tog: '',
-          nombre: 'Horas Total:',
+          nombre: 'Total de horas:',
           info: '',
           idInfo: '',
         },
@@ -446,7 +446,7 @@ export default {
       } else {
         this.horasBRP = this.horasTotal;
       }
-      let BRP = this.horasBRP * this.FCS.nivelBRP;
+      let BRP = this.horasBRP * this.FCS.nivelBRP.value;
       BRP = Math.round(BRP / 30);
       let asigDesPro1 = this.horasTotal / 44;
       asigDesPro1 *= this.FCS.bieniosCpeip.value / 15;
@@ -503,9 +503,9 @@ export default {
       asigPrio
         += (this.FCS.prioritario60.value * (asigDesPro * 0.2 + 47872 * (this.horasTotal / 44)));
       asigPrio = Math.round(asigPrio);
-      let asigPIE = this.FCS.valorHora * (0.0338 + (0.0333 * (this.FCS.bieniosCormuval - 1)));
-      asigPIE *= this.FCS.horasPIE;
-      asigPIE += (this.FCS.valorHora * this.FCS.horasPIE);
+      let asigPIE = 0.0338 + (0.0333 * (this.FCS.bieniosCormuval.value - 1));
+      asigPIE *= this.FCS.valorHora.value * this.FCS.horasPIE.value;
+      asigPIE += (this.FCS.valorHora.value * this.FCS.horasPIE.value);
       asigPIE = Math.round(asigPIE);
       this.colilla[0].monto = sueldoBase;
       this.colilla[1].monto = moviliz;
@@ -581,7 +581,6 @@ b-card-text {
  /* Create three equal columns that floats next to each other */
 .column {
   float: left;
-  width: 33.33%;
 }
 
 /* Clear floats after the columns */
