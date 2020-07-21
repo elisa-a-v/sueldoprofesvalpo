@@ -1,13 +1,14 @@
 <!--<!doctype html>-->
 <!--<html lang="es">-->
 <template>
-<span>
+<div>
+  <title>Calculadora de Sueldo</title>
   <div>
     <b-navbar fixed="top" toggleable="true" type="dark" variant="dark">
       <b-navbar-brand style="max-width: 550px; margin: auto;" href="#">
         <b-img-lazy rounded="circle" width="40px" fluid src="https://i.imgur.com/KWG4mnv.jpg">
         </b-img-lazy>
-        <h2>Depto. Educación</h2>
+        Depto. Educación
       </b-navbar-brand>
 
       <b-navbar-toggle style="margin-right: auto;" target="nav-collapse" right></b-navbar-toggle>
@@ -45,8 +46,8 @@
                 Esta <b>calculadora de sueldo</b> es fruto del trabajo del <b>Departamento de
                 Educación</b> del Comunal Valparaíso del Colegio de Profesoras y Profesores.
                 <br>El Departamento, que está integrado por un pequeño grupo de docentes
-                de la comuna de Valparaíso, está abierto a la colaboración de cualquier persona
-                del gremio que tenga interés en participar. Si quieres trabajar con nosotras y
+                de la comuna de Valparaíso, está abierto a la colaboración de cualquier colega
+                que tenga interés en participar. Si quieres trabajar con nosotras y
                 nosotros, escríbenos al siguiente correo:<br>
               </p>
               <p style="text-align: center;">
@@ -81,12 +82,15 @@
             <b-dropdown-item href="https://www.cpeip.cl/valores-2020-brp-y-asignaciones-carrera-docente/">
               Valores 2020 asignaciones
             </b-dropdown-item>
+            <b-dropdown-item href="https://github.com/elisa-a-v/sueldoprofesvalpo">
+              Repositorio GitHub
+            </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
   </div>
-  <b-container id="arriba-izq">
+  <span id="arriba-izq">
     <div style="margin-top: 70px;">
       <h1>
         <br>Calculadora de sueldo
@@ -99,12 +103,12 @@
     </div>
     <b-container class="body">
       <table id="tabla-colilla"
-             class="table table-bordered table-striped table-sm table-responsive-sm">
+             class="table table-bordered table-striped table-sm">
         <thead>
           <tr>
-            <th scope="col">Código</th>
+            <th style="max-width: 35px;" scope="col">Código</th>
             <th class="d" scope="col">Ítem</th>
-            <th scope="col">Monto</th>
+            <th style="max-width: 30px;" scope="col">Monto</th>
           </tr>
         </thead>
         <tbody>
@@ -115,7 +119,7 @@
           </tr>
           <tr>
             <td style="border-right: none;"></td>
-            <td class="i" style="border-left: none">
+            <td class="text-right" style="border-left: none">
               <b>Sueldo bruto:</b>
             </td>
             <td>
@@ -125,368 +129,125 @@
         </tbody>
       </table>
     </b-container>
-  </b-container>
-  <b-container id="abajo-der">
+  </span>
+  <span id="abajo-der">
     <h4>
       <br>Formulario
     </h4>
     <table class="table table-hover table-borderless table-striped">
+      <thead>
+        <tr>
+          <th style="max-width: 40%" scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
       <tbody>
-        <tr>
-          <td class="i">
-            Valor hora:
-            <div>
-             <b-button v-b-toggle.collapse-1 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse accordion="info" id="collapse-1" class="mt-2">
-                <b-card
-                  style="max-width: 20rem;"
-                  align="left"
-                >
-                  <b-card-text class="text-right">
-                    <small>
-                      El valor hora para calcular la Remuneración Básica Mínima Nacional para
-                      docentes en Chile depende del nivel en el que se desempeñe la o el docente.
-                      Para el año 2020 los valores son:
-                      <br><br><b>Enseñanza básica</b><br>$14.403
-                      <br><b>Enseñanza media</b><br> $15.155
-                    </small>
-                  </b-card-text>
-                </b-card>
-              </b-collapse>
+        <tr v-for="fila in filasPosibles" :key="fila">
+          <template v-if="(fila.id !== 'horasTotal')
+              && !(fila.id === 'prioritario80' && FCS.prioritario60.value !==1)" class="clearfix">
+            <div class="clearfix">
+              <td style="float: left;">
+                <b-container class="text-left">
+<!--                  <b-button data-inline>-->
+                    <b-icon icon="info-square" v-b-toggle=fila.tog pill size="sm"
+                          variant="secondary" @click="info(fila.idInfo, fila.info)"></b-icon>
+<!--                  </b-button>-->
+                  {{ fila.nombre }}
+                </b-container>
+              </td>
+              <td style="float: right;">
+                <select v-if="fila.id === 'valorHora'" :id=fila.id
+                        v-model=fila.value style="width: 100px;">
+                  <option v-bind:value="14403">Enseñanza básica</option>
+                  <option v-bind:value="15155">Enseñanza media</option>
+                </select>
+                <select v-if="fila.id === 'horasRegular' || fila.id === 'horasReemplazo' ||
+                        fila.id === 'horasSEP' || fila.id === 'horasPIE'" :id=fila.id
+                        v-model=fila.value style="width: 100px;">
+                  <option v-for="i in horasPosibles" :key="i" v-bind:value="i">{{ i }}</option>
+                </select>
+                <select v-if="fila.id === 'bieniosCormuval' || fila.id === 'bieniosCpeip'"
+                        :id=fila.id v-model=fila.value style="width: 100px;">
+                  <option v-for="i in bieniosPosibles" :key="i" v-bind:value="i">{{ i }}</option>
+                </select>
+                <select v-if="fila.id === 'tramo'"
+                        :id=fila.id v-model=fila.value style="width: 100px;">
+                  <option v-for="i in tramosPosibles" :key="i" v-bind:value="i">{{ i }}</option>
+                </select>
+                <select v-if="fila.id === 'nivelBRP'"
+                        :id=fila.id v-model=fila.value style="width: 100px;">
+                  <option v-bind:value=0>Sin título</option>
+                  <option v-bind:value=253076>Con título, sin mención</option>
+                  <option v-bind:value=337436>Con título, con mención</option>
+                </select>
+                <select v-if="fila.id === 'prioritario60' || fila.id === 'prioritario80'"
+                        :id=fila.id v-model=fila.value style="width: 100px;">
+                  <option v-bind:value=0>No</option>
+                  <option v-bind:value=1>Sí</option>
+                </select>
+              </td>
             </div>
-          </td>
-          <td class="d">
-            <select id="valorHora" v-model="FCS.valorHora">
-              <option v-bind:value="14403">Enseñanza básica</option>
-              <option v-bind:value="15155">Enseñanza media</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td class="i">
-            Horas por subvención regular:
-            <div>
-             <b-button v-b-toggle.collapse-2 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse accordion="info" id="collapse-2" class="mt-2">
-                <b-card
-                  style="max-width: 20rem;"
-                  align="left"
-                >
-                  <b-card-text class="text-right">
-                    <small>
-                      Cantidad de horas de contrato que son financiadas con la subvención regular;
-                      es decir, no son horas SEP, ni de reemplazo, ni PIE, etc.
-                      <br>En su liquidación aparece en la parte superior en "JORNADA: XX HRS".
-                    </small>
-                  </b-card-text>
-                </b-card>
-              </b-collapse>
-            </div>
-          </td>
-          <td class="d">
-            <select id="horasRegular" v-model="FCS.horasRegular">
-              <option v-for="i in horasPosibles" :key="i" v-bind:value="i">{{ i }}</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td class="i">
-            Horas de reemplazo:
-            <div>
-             <b-button v-b-toggle.collapse-3 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse accordion="info" id="collapse-3" class="mt-2">
-                <b-card
-                  style="max-width: 20rem;"
-                  align="left"
-                >
-                  <b-card-text class="text-right">
-                    <small>Horas de reemplazo que realizó durante el mes.</small>
-                  </b-card-text>
-                </b-card>
-              </b-collapse>
-            </div>
-          </td>
-          <td class="d">
-            <select id="horasReemplazo" v-model="FCS.horasReemplazo">
-              <option v-for="i in horasPosibles" :key="i" v-bind:value="i">{{ i }}</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td class="i">
-            Horas SEP:
-            <div>
-             <b-button v-b-toggle.collapse-4 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse accordion="info" id="collapse-4" class="mt-2">
-                <b-card
-                  style="max-width: 20rem;"
-                  align="left"
-                >
-                  <b-card-text class="text-right">
-                    <small>
-                      Cantidad de horas financiadas con la Subvención Escolar Preferencial
-                      (ley 20.248).
-                    </small>
-                  </b-card-text>
-                </b-card>
-              </b-collapse>
-            </div>
-          </td>
-          <td class="d">
-            <select id="horasSEP" v-model="FCS.horasSEP">
-              <option v-for="i in horasPosibles" :key="i" v-bind:value="i">{{ i }}</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td class="i">
-            Horas PIE:
-            <div>
-             <b-button v-b-toggle.collapse-5 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse accordion="info" id="collapse-5" class="mt-2">
-                <b-card
-                  style="max-width: 20rem;"
-                  align="left"
-                >
-                  <b-card-text class="text-right">
-                    <small>
-                      Cantidad de horas financiadas con el Programa de Integración Escolar.
-                    </small>
-                  </b-card-text>
-                </b-card>
-              </b-collapse>
-            </div>
-          </td>
-          <td class="d">
-            <select id="horasPIE" v-model="FCS.horasPIE">
-              <option v-for="i in horasPosibles" :key="i" v-bind:value="i">{{ i }}</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td v-if="(FCS.horasPIE + FCS.horasReemplazo + FCS.horasRegular
-            + FCS.horasSEP) < 45" class="i">
-            <b>Horas total contrato:</b>
-          </td>
-          <td v-else class="i" style="color: red;">
-            <b>Horas total contrato:</b>
-            <b-alert show variant="danger">
-              Revise que haya ingresado la cantidad de horas correctamente. Recuerde que
-              el máximo legal es de 44 horas semanales.
+
+            <b-collapse :id=fila.tog accordion="info" class="mt-2">
+              <b-card>
+                <b-card-text class="text-justify">
+                  <small :id=fila.idInfo></small>
+                </b-card-text>
+              </b-card>
+            </b-collapse>
+            <b-alert show v-if="((fila.value === 'Experto I') ||
+            (fila.value === 'Experto II'))
+            && FCS.bieniosCpeip.value < 4" variant="danger">
+              Revise los datos ingresados.
+              Recuerde que para alcanzar el tramo <b>Experto I</b> o
+              <b>Experto II</b> no puede tener
+              menos de 4 bienios reconocidos por el CPEIP.
             </b-alert>
-          </td>
-          <td v-if="(FCS.horasPIE + FCS.horasReemplazo + FCS.horasRegular
-            + FCS.horasSEP) < 45" class="d">
-            {{ FCS.horasPIE + FCS.horasReemplazo + FCS.horasRegular
-            + FCS.horasSEP }}
-          </td>
-          <td v-else class="d" style="color: red;">
-            {{ FCS.horasPIE + FCS.horasReemplazo + FCS.horasRegular
-            + FCS.horasSEP }}
-          </td>
-        </tr>
-        <tr>
-          <td class="i">
-            Bienios reconocidos por CORMUVAL:
-            <div>
-             <b-button v-b-toggle.collapse-6 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse accordion="info" id="collapse-6" class="mt-2">
-                <b-card
-                  style="max-width: 20rem;"
-                  align="left"
-                >
-                  <b-card-text class="text-right">
-                    <small>
-                      Número de bienios (período de 2 años completos) reconocidos por
-                      la Corporación Municipal de Valparaíso.
-                    </small>
-                  </b-card-text>
-                </b-card>
-              </b-collapse>
-            </div>
-          </td>
-          <td class="d">
-              <select id="bieniosCormuval" v-model="FCS.bieniosCormuval">
-                <option v-for="i in bieniosPosibles" :key="i" v-bind:value="i">{{ i }}</option>
-              </select>
-          </td>
-        </tr>
-        <tr>
-          <td class="i">
-            Bienios reconocidos por CPEIP:
-            <div>
-             <b-button v-b-toggle.collapse-7 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse accordion="info" id="collapse-7" class="mt-2">
-                <b-card
-                  style="max-width: 20rem;"
-                  align="left"
-                >
-                  <b-card-text class="text-right">
-                    <small>
-                      Número de bienios (período de 2 años completos) reconocidos por
-                      el Centro de Perfeccionamiento, Experimentación e Investigaciones Pedagógicas.
-                    </small>
-                  </b-card-text>
-                </b-card>
-              </b-collapse>
-            </div>
-          </td>
-          <td class="d">
-            <select id="bieniosCpeip" v-model="FCS.bieniosCpeip">
-              <option v-for="i in bieniosPosibles" :key="i" v-bind:value="i">{{ i }}</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td class="i">
-            Tramo:
-            <div>
-             <b-button v-b-toggle.collapse-8 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse accordion="info" id="collapse-8" class="mt-2">
-                <b-card
-                  style="max-width: 20rem;"
-                  align="left"
-                >
-                  <b-card-text class="text-right">
-                    <small>Tramo de la Carrera Docente en el que se encuentra.</small>
-                  </b-card-text>
-                </b-card>
-              </b-collapse>
-            </div>
-            <b-alert show v-if="((FCS.tramo === 'Experto I') ||
-            (FCS.tramo === 'Experto II')) && FCS.bieniosCpeip < 4" variant="danger">
-              Revise los datos ingresados. Recuerde que para alcanzar el tramo <b>Experto I</b> o
-              <b>Experto II</b> no puede tener menos de 4 bienios reconocidos por el CPEIP.
-            </b-alert>
-            <b-alert show v-if="(FCS.tramo === 'Avanzado') && FCS.bieniosCpeip < 2"
+            <b-alert show v-if="(fila.value === 'Avanzado') && FCS.bieniosCpeip.value < 2"
                      variant="danger">
-              Revise los datos ingresados. Recuerde que para alcanzar el tramo <B>Avanzado</B>,
+              Revise los datos ingresados.
+              Recuerde que para alcanzar el tramo <B>Avanzado</B>,
               no puede tener menos de 2 bienios reconocidos por el CPEIP.
             </b-alert>
-          </td>
-          <td class="d">
-            <select id="tramo" v-model="FCS.tramo">
-              <option v-for="i in tramosPosibles" :key="i" v-bind:value="i">{{ i }}</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td class="i">
-            Título para BRP:
-            <div>
-             <b-button v-b-toggle.collapse-9 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse accordion="info" id="collapse-9" class="mt-2">
-                <b-card
-                  style="max-width: 20rem;"
-                  align="left"
-                >
-                  <b-card-text class="text-right">
-                    <small style="text-align: justify;">
-                      El <b>Bono de Reconocimiento Profesional</b> tiene dos niveles, dependiendo
-                      de la presencia o ausencia de una "mención" en el título profesional.
-                      <br>Los montos para contratos de 30 horas
-                      o más, al año 2020 son:
-                      <br><br><b>Sin mención</b><br>253.076
-                      <br><b>Con mención</b><br>337.436
-                    </small>
-                  </b-card-text>
-                </b-card>
-              </b-collapse>
-            </div>
-          </td>
-          <td class="d">
-            <select id="nivelBRP" v-model="FCS.nivelBRP">
-              <option v-bind:value="0">Sin título</option>
-              <option v-bind:value="253076">Con título, sin mención</option>
-              <option v-bind:value="337436">Con título, con mención</option>
-            </select>
-            <br>
-          </td>
-        </tr>
-        <tr>
-          <td class="i">
-            Trabaja en un establecimiento con 60% de estudiantes prioritarios o más:
-            <div>
-             <b-button v-b-toggle.collapse-10 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse accordion="info" id="collapse-10" class="mt-2">
-                <b-card
-                  style="max-width: 20rem;"
-                  align="left"
-                >
-                  <b-card-text class="text-right">
-                    <small>La <b>Asignación por docencia en establecimientos con alta concentración
-                      de alumnos prioritarios</b> se paga a todos y todas las docentes que trabajan
-                      en establecimientos con un 60% de alumnos prioritarios o más.<br>
-                      <a href=
-         "https://www.cpeip.cl/wp-content/uploads/2019/06/Porcentaje-alumnos-prioritarios-2019.pdf">
-                        Click aquí
-                      </a>
-                       para ver porcentaje de alumnos prioritarios por establecimiento.
-                    </small>
-                  </b-card-text>
-                </b-card>
-              </b-collapse>
-            </div>
-          </td>
-          <td class="d">
-            <select id="prioritario60" v-model="FCS.prioritario60">
-              <option v-bind:value="0">No</option>
-              <option v-bind:value="1">Sí</option>
-            </select>
-          </td>
-        </tr>
-        <tr v-if="FCS.prioritario60 === 1">
-          <td class="i">
-            Trabaja en un establecimiento con 80% de estudiantes prioritarios o más:
-            <div>
-             <b-button v-b-toggle.collapse-11 pill size="sm" variant="secondary">?</b-button>
-              <b-collapse accordion="info" id="collapse-11" class="mt-2">
-                <b-card
-                  style="max-width: 20rem;"
-                  align="left"
-                >
-                  <b-card-text class="text-right">
-                    <small>
-                      La <b>Asignación por docencia en establecimientos con alta concentración de
-                      alumnos prioritarios</b> aumenta para docentes en los tramos Avanzado,
-                      Experto I y Experto II que trabajen en establecimientos con 80%
-                      de estudiantes prioritarios o más.<br>
-                      <a href=
-         "https://www.cpeip.cl/wp-content/uploads/2019/06/Porcentaje-alumnos-prioritarios-2019.pdf">
-                        Click aquí
-                      </a>
-                       para ver porcentaje de alumnos prioritarios por establecimiento.
-                    </small>
-                  </b-card-text>
-                </b-card>
-              </b-collapse>
-            </div>
-          </td>
-          <td class="d">
-            <select id="prioritario80" v-model="FCS.prioritario80">
-              <option v-bind:value="0">No</option>
-              <option v-bind:value="1">Sí</option>
-            </select>
-          </td>
+
+          </template>
+
+          <template v-if="fila.id === 'horasTotal'">
+            <span style="margin: auto">
+              <td style="margin-left: auto;">
+                <b>{{ fila.nombre }}</b>
+              </td>
+              <td class="d" style="margin-right: auto;">
+                <b>{{ horasTotal }}</b>
+              </td>
+            </span>
+
+            <b-alert show v-if="horasTotal > 44" variant="danger">
+              Revise que haya ingresado la cantidad de horas correctamente.
+              <br>Recuerde que el máximo legal es de 44 horas semanales.
+            </b-alert>
+          </template>
         </tr>
       </tbody>
     </table>
+
     <br>
     <div class="bottom-margin">
       <b-button class="btn btn-success btn-sm" variant="primary" @click="calcularSueldo()">
         Calcular Sueldo
       </b-button>
     </div>
-  </b-container>
-</span>
+  </span>
+</div>
 </template>
 
 <script>
 // import axios from 'axios';
 import Vue from 'vue';
-import { BootstrapVue } from 'bootstrap-vue';
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
 
 Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 
 export default {
   name: 'Home',
@@ -495,21 +256,141 @@ export default {
       datos: [],
       show: true,
       FCS: {
-        valorHora: 14403,
-        horasRegular: 0,
-        horasReemplazo: 0,
-        horasSEP: 0,
-        horasPIE: 0,
-        bieniosCormuval: 0,
-        bieniosCpeip: 0,
-        tramo: 'Acceso',
-        tramoProgresion: 0,
-        tramoFija: 0,
-        nivelBRP: 0,
-        horasBRP: 0,
-        prioritario60: 0,
-        prioritario80: 0,
-        avanzadoExperto: 0,
+        valorHora: {
+          id: 'valorHora',
+          tog: 'valorHoraToggle',
+          idInfo: 'valorHoraInfo',
+          value: 14403,
+          nombre: 'Valor hora:',
+          info: 'El valor hora para calcular la Remuneración Básica Mínima Nacional para docentes '
+            + 'en Chile depende del nivel en el que se desempeñe la o el docente.'
+            + '<br>Para el año 2020 los valores son: '
+            + '<br><br><b>Enseñanza básica</b><br>$14.403'
+            + '<br><b>Enseñanza media</b><br>$15.155',
+        },
+        horasRegular: {
+          id: 'horasRegular',
+          tog: 'horasRegularToggle',
+          idInfo: 'horasRegularInfo',
+          value: 0,
+          nombre: 'Horas por subvención regular:',
+          info: 'Cantidad de horas de contrato que son \n'
+            + ' financiadas con la subvención regular;\n'
+            + ' es decir, no son horas SEP, ni de reemplazo, \n'
+            + ' ni PIE, etc.\n'
+            + ' <br>En su liquidación aparece en la parte\n'
+            + ' superior en<br><center>"<b>JORNADA: XX HRS</b>".</center>',
+        },
+        horasReemplazo: {
+          id: 'horasReemplazo',
+          tog: 'horasReemplazoToggle',
+          idInfo: 'horasReemplazoInfo',
+          value: 0,
+          nombre: 'Horas de reemplazo:',
+          info: 'Horas de reemplazo que realizó durante el mes.',
+        },
+        horasSEP: {
+          id: 'horasSEP',
+          tog: 'horasSEPToggle',
+          idInfo: 'horasSEPInfo',
+          value: 0,
+          nombre: 'Horas SEP:',
+          info: 'Cantidad de horas financiadas con'
+            + ' la Subvención Escolar Preferencial (ley 20.248).',
+        },
+        horasPIE: {
+          id: 'horasPIE',
+          tog: 'horasPIEToggle',
+          idInfo: 'horasPIEInfo',
+          value: 0,
+          nombre: 'Horas PIE:',
+          info: 'Cantidad de horas financiadas con el Programa de Integración Escolar.',
+        },
+        horasTotales: {
+          value: this.horasTotal,
+          id: 'horasTotal',
+          tog: '',
+          nombre: 'Horas Total:',
+          info: '',
+          idInfo: '',
+        },
+        bieniosCormuval: {
+          id: 'bieniosCormuval',
+          tog: 'bieniosCormuvalToggle',
+          idInfo: 'bieniosCormuvalInfo',
+          value: 0,
+          nombre: 'Bienios CORMUVAL:',
+          info: 'Número de bienios (período de 2 años completos) '
+            + 'reconocidos por la Corporación Municipal de Valparaíso.',
+        },
+        bieniosCpeip: {
+          id: 'bieniosCpeip',
+          tog: 'bieniosCpeipToggle',
+          idInfo: 'bieniosCpeipInfo',
+          value: 0,
+          nombre: 'Bienios CPEIP:',
+          info: ' Número de bienios (período de 2 años completos) reconocidos por'
+            + ' el Centro de Perfeccionamiento, Experimentación e Investigaciones Pedagógicas.',
+        },
+        tramo: {
+          id: 'tramo',
+          tog: 'tramoToggle',
+          idInfo: 'tramoInfo',
+          value: 'Acceso',
+          nombre: 'Tramo Carrera Docente:',
+          info: 'Tramo de la Carrera Docente en el que se encuentra.',
+
+        },
+        nivelBRP: {
+          id: 'nivelBRP',
+          tog: 'nivelBRPToggle',
+          idInfo: 'nivelBRPInfo',
+          value: 0,
+          nombre: 'Título para BRP:',
+          info: 'El <b>Bono de Reconocimiento Profesional</b>'
+            + ' tiene dos niveles, dependiendo'
+            + ' de la presencia o ausencia de una "mención" en el título profesional.'
+            + ' <br>Los montos para contratos de 30 horas'
+            + ' o más, al año 2020 son:'
+            + ' <br><br><b>Sin mención</b><br>253.076'
+            + ' <br><b>Con mención</b><br>337.436',
+        },
+        prioritario60: {
+          id: 'prioritario60',
+          tog: 'prioritario60Toggle',
+          idInfo: 'prioritario60Info',
+          value: 0,
+          nombre: 'Trabaja en un establecimiento con 60% de estudiantes prioritarios o más:',
+          info: 'La <b>Asignación por docencia en'
+            + ' establecimientos con alta concentración'
+            + ' de alumnos prioritarios</b> se paga a'
+            + ' todos y todas las docentes que trabajan'
+            + ' en establecimientos con un 60%'
+            + ' de alumnos prioritarios o más.<br><br>'
+            + ' <a href='
+            + '"https://www.cpeip.cl/wp-content/uploads/2019/06/Porcentaje-alumnos-prioritarios-2019.pdf">'
+            + ' Click aquí'
+            + '</a>'
+            + ' para ver porcentaje de alumnos'
+            + ' prioritarios por establecimiento.',
+        },
+        prioritario80: {
+          id: 'prioritario80',
+          tog: 'prioritario80Toggle',
+          idInfo: 'prioritario80Info',
+          value: 0,
+          nombre: 'Trabaja en un establecimiento con 80% de estudiantes prioritarios o más:',
+          info: 'La <b>Asignación por docencia en'
+            + ' establecimientos con alta concentración de'
+            + ' alumnos prioritarios</b> aumenta para docentes en los tramos Avanzado,'
+            + ' Experto I y Experto II que trabajen en establecimientos con 80%'
+            + ' de estudiantes prioritarios o más.<br><br>'
+            + ' <a href='
+            + ' "https://www.cpeip.cl/wp-content/uploads/2019/06/Porcentaje-alumnos-prioritarios-2019.pdf">'
+            + ' Click aquí'
+            + ' </a>'
+            + ' para ver porcentaje de alumnos prioritarios por establecimiento.',
+        },
       },
       colilla: [
         { codigo: 0, item: 'Sueldo base', monto: 0 },
@@ -526,50 +407,71 @@ export default {
         22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44],
       bieniosPosibles: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
       tramosPosibles: ['Acceso', 'Inicial', 'Temprano', 'Avanzado', 'Experto I', 'Experto II'],
-      horasTotal: 0,
       sueldoBruto: 0,
+      horasBRP: 0,
+      isHovered: false,
     };
+  },
+  computed: {
+    filasPosibles() {
+      return [
+        this.FCS.valorHora,
+        this.FCS.horasRegular,
+        this.FCS.horasReemplazo,
+        this.FCS.horasSEP,
+        this.FCS.horasPIE,
+        this.FCS.horasTotales,
+        this.FCS.bieniosCormuval,
+        this.FCS.bieniosCpeip,
+        this.FCS.tramo,
+        this.FCS.nivelBRP,
+        this.FCS.prioritario60,
+        this.FCS.prioritario80,
+      ];
+    },
+    horasTotal() {
+      return this.FCS.horasSEP.value + this.FCS.horasPIE.value
+        + this.FCS.horasRegular.value + this.FCS.horasReemplazo.value;
+    },
   },
   methods: {
     calcularSueldo() {
-      if (this.FCS.prioritario60 === 0) {
-        this.FCS.prioritario80 = 0;
+      if (this.FCS.prioritario60.value === 0) {
+        this.FCS.prioritario80.value = 0;
       }
-      const sueldoBase = this.FCS.horasRegular * this.FCS.valorHora;
+      const sueldoBase = this.FCS.horasRegular.value * this.FCS.valorHora.value;
       const moviliz = 6921;
-      this.horasTotal = this.FCS.horasSEP + this.FCS.horasReemplazo + this.FCS.horasPIE
-      + this.FCS.horasRegular;
       if (this.horasTotal > 30) {
-        this.FCS.horasBRP = 30;
+        this.horasBRP = 30;
       } else {
-        this.FCS.horasBRP = this.horasTotal;
+        this.horasBRP = this.horasTotal;
       }
-      let BRP = this.FCS.horasBRP * this.FCS.nivelBRP;
+      let BRP = this.horasBRP * this.FCS.nivelBRP;
       BRP = Math.round(BRP / 30);
       let asigDesPro1 = this.horasTotal / 44;
-      asigDesPro1 *= this.FCS.bieniosCpeip / 15;
+      asigDesPro1 *= this.FCS.bieniosCpeip.value / 15;
       let tramoProgresion = 14315;
       let tramoFija = 0;
-      if (this.FCS.tramo === 'Acceso' || this.FCS.tramo === 'Inicial') {
+      if (this.FCS.tramo.value === 'Acceso' || this.FCS.tramo.value === 'Inicial') {
         tramoProgresion = 14315;
-      } else if (this.FCS.tramo === 'Temprano') {
+      } else if (this.FCS.tramo.value === 'Temprano') {
         tramoProgresion = 47831;
-      } else if (this.FCS.tramo === 'Avanzado') {
+      } else if (this.FCS.tramo.value === 'Avanzado') {
         tramoProgresion = 96266;
         tramoFija = 103410.99;
-      } else if (this.FCS.tramo === 'Experto I') {
+      } else if (this.FCS.tramo.value === 'Experto I') {
         tramoProgresion = 360892;
         tramoFija = 143625.915;
-      } else if (this.FCS.tramo === 'Experto II') {
+      } else if (this.FCS.tramo.value === 'Experto II') {
         tramoProgresion = 776654;
         tramoFija = 218311.515;
       }
       asigDesPro1 *= tramoProgresion;
       asigDesPro1 = Math.round(asigDesPro1);
-      let asigDesPro2 = this.FCS.bieniosCpeip - 1;
+      let asigDesPro2 = this.FCS.bieniosCpeip.value - 1;
       asigDesPro2 *= 0.0333;
       asigDesPro2 += 0.0338;
-      asigDesPro2 *= this.horasTotal * this.FCS.valorHora;
+      asigDesPro2 *= this.horasTotal * this.FCS.valorHora.value;
       asigDesPro2 = Math.round(asigDesPro2);
       let asigDesPro3 = 0;
       asigDesPro3 = this.horasTotal / 44;
@@ -579,26 +481,27 @@ export default {
       asigDesPro = asigDesPro1;
       asigDesPro += asigDesPro2;
       asigDesPro += asigDesPro3;
-      let amplSEP = this.FCS.bieniosCormuval - 1;
+      let amplSEP = this.FCS.bieniosCormuval.value - 1;
       amplSEP *= 0.0333;
       amplSEP += 0.0338;
-      amplSEP *= this.FCS.valorHora * this.FCS.horasSEP;
-      amplSEP += (this.FCS.valorHora * this.FCS.horasSEP);
+      amplSEP *= this.FCS.valorHora.value * this.FCS.horasSEP.value;
+      amplSEP += (this.FCS.valorHora.value * this.FCS.horasSEP.value);
       amplSEP = Math.round(amplSEP);
-      let amplLicOtros = 0.0338 + (0.0333 * (this.FCS.bieniosCormuval - 1));
-      amplLicOtros *= this.FCS.valorHora * this.FCS.horasReemplazo;
-      amplLicOtros += (this.FCS.valorHora * this.FCS.horasReemplazo);
+      let amplLicOtros = 0.0338 + (0.0333 * (this.FCS.bieniosCormuval.value - 1));
+      amplLicOtros *= this.FCS.valorHora.value * this.FCS.horasReemplazo.value;
+      amplLicOtros += (this.FCS.valorHora.value * this.FCS.horasReemplazo.value);
       amplLicOtros = Math.round(amplLicOtros);
-      let asigExper = sueldoBase * (0.0338 + (0.0333 * (this.FCS.bieniosCormuval - 1)));
+      let asigExper = sueldoBase * (0.0338 + (0.0333 * (this.FCS.bieniosCormuval.value - 1)));
       asigExper = Math.round(asigExper);
       let asigPrio = (asigDesPro * 0.2) + (65689 * (this.horasTotal / 44));
       let prio = 0;
-      if ((this.FCS.tramo === 'Avanzado') || (this.FCS.tramo === 'Experto I')
-        || (this.FCS.tramo === 'Experto II')) {
+      if ((this.FCS.tramo.value === 'Avanzado') || (this.FCS.tramo.value === 'Experto I')
+        || (this.FCS.tramo.value === 'Experto II')) {
         prio = 1;
       }
-      asigPrio *= this.FCS.prioritario80 * prio;
-      asigPrio += (this.FCS.prioritario60 * (asigDesPro * 0.2 + 47872 * (this.horasTotal / 44)));
+      asigPrio *= this.FCS.prioritario80.value * prio;
+      asigPrio
+        += (this.FCS.prioritario60.value * (asigDesPro * 0.2 + 47872 * (this.horasTotal / 44)));
       asigPrio = Math.round(asigPrio);
       let asigPIE = this.FCS.valorHora * (0.0338 + (0.0333 * (this.FCS.bieniosCormuval - 1)));
       asigPIE *= this.FCS.horasPIE;
@@ -617,6 +520,12 @@ export default {
       + amplLicOtros + asigExper + asigPrio;
       window.scrollTo({ top: window, behavior: 'smooth' });
     },
+    info(id, inner) {
+      document.getElementById(id).innerHTML = inner;
+    },
+    handleHover(hovered) {
+      this.isHovered = hovered;
+    },
   },
 };
 
@@ -624,7 +533,7 @@ export default {
 
 <style>
 div {
-  max-width: 600px;
+  /*max-width: 600px;*/
   margin: auto;
 }
 
@@ -642,7 +551,7 @@ header {
 }
 
 b-card-text {
-  text-align: right !important;
+  text-align: justify !important;
 }
 
 .bottom-margin {
@@ -655,11 +564,37 @@ b-card-text {
 
 .d {
   text-align: left;
+  max-width: 70px;
 }
 
 .i {
-  text-align: right;
+  text-align: left;
   max-width: 160px;
+}
+
+.clearfix {
+  overflow: auto;
+  /*content:"";*/
+  clear: both;
+}
+
+ /* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
 }
 </style>
 <!--</html>-->
