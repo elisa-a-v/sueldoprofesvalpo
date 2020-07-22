@@ -19,11 +19,13 @@
             <b-dropdown-text>
               <p style="text-align: justify; overflow-wrap: break-word;
               word-wrap: break-word; word-break-wrap: break-word; margin: 10px;">
-                Ingresa la información que se solicita en el formulario de más abajo.
+                <b-icon icon="check"></b-icon> Ingresa la información que se solicita
+                en el formulario de más abajo.
                 Cuando hayas ingresado toda la información correctamente, presiona el botón
                 "Calcular Sueldo" y verás el detalle por asignación que deberías recibir
-                cada mes, actualizado en la tabla de arriba.
-                <br>Puedes cambiar los valores del formulario las veces que quieras, pero luego
+                cada mes, actualizado en la tabla de abajo.
+                <br><b-icon icon="check"></b-icon>
+                Puedes cambiar los valores del formulario las veces que quieras, pero luego
                 recuerda siempre presionar el botón "Calcular Sueldo" para volver a actualizar
                 los datos de la tabla.
               </p>
@@ -43,9 +45,11 @@
             <b-dropdown-text>
               <p style="text-align: justify; overflow-wrap: break-word;
               word-wrap: break-word; word-break-wrap: break-word; margin: 10px;">
+                <b-icon icon="check"></b-icon>
                 Esta <b>calculadora de sueldo</b> es fruto del trabajo del <b>Departamento de
                 Educación</b> del Comunal Valparaíso del Colegio de Profesoras y Profesores.
-                <br>El Departamento, que está integrado por un pequeño grupo de docentes
+                <br><b-icon icon="check"></b-icon>
+                El Departamento, que está integrado por un pequeño grupo de docentes
                 de la comuna de Valparaíso, está abierto a la colaboración de cualquier colega
                 que tenga interés en participar. Si quieres trabajar con nosotras y
                 nosotros, escríbenos al siguiente correo:<br>
@@ -65,6 +69,7 @@
             <b-dropdown-text>
               <p style="text-align: justify; overflow-wrap: break-word;
               word-wrap: break-word; word-break-wrap: break-word; margin: 10px;">
+                <b-icon icon="chat"></b-icon>
                 Si necesitas contactarte con el Departamento de Educación,
                 escríbenos al siguiente correo y te contestaremos a la brevedad:<br>
               </p>
@@ -91,56 +96,20 @@
     </b-navbar>
   </div>
   <span id="arriba-izq">
-    <div style="margin-top: 70px;">
+    <div style="margin-top: 50px;">
       <h1>
         <br>Calculadora de sueldo
       </h1>
-      <p>
-        Herramienta para profesoras y profesores que trabajan en
-        establecimientos municipales de la comuna de Valparaíso.
-        <br><br>
-      </p>
+      <small>
+        Más información en el menú superior.
+        <b-icon icon="question-circle-fill" size="sm"
+                        variant="secondary" v-b-toggle:nav-collapse></b-icon>
+        <br>
+      </small>
     </div>
-    <b-container class="body">
-      <table id="tabla-colilla"
-             class="table table-bordered table-striped table-sm">
-        <thead>
-          <tr>
-            <th style="max-width: 35px;" scope="col">Código</th>
-            <th class="d" scope="col">Ítem</th>
-            <th style="max-width: 30px;" scope="col">Monto</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in colilla" :key="item">
-            <td>{{ item.codigo }}</td>
-            <td class="d">{{ item.item }}</td>
-            <td>{{ item.monto }}</td>
-          </tr>
-          <tr>
-            <td style="border-right: none;"></td>
-            <td class="text-right" style="border-left: none">
-              <b>Sueldo bruto:</b>
-            </td>
-            <td>
-              <b>{{ sueldoBruto }}</b>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </b-container>
   </span>
   <span id="abajo-der" style="margin: auto;">
-    <h4>
-      <br>Formulario
-    </h4>
     <table class="table table-hover table-borderless table-striped">
-      <thead>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
       <tbody>
         <tr v-for="fila in filasPosibles" :key="fila">
           <template v-if="(fila.id !== 'horasTotal')
@@ -246,10 +215,47 @@
 
     <br>
     <div class="bottom-margin">
-      <b-button class="btn btn-success btn-sm" variant="primary" @click="calcularSueldo()">
-        Calcular Sueldo
-      </b-button>
+      <b-button-group>
+        <b-button class="btn btn-sm" variant="outline-primary" @click="calcularSueldo()">
+          <b-icon class="h3" icon="check"></b-icon>
+          Calcular Sueldo
+        </b-button>
+        <b-button class="btn btn-sm" variant="outline-secondary" @click="onReset()">
+          <b-icon class="h3" icon="arrow-clockwise"></b-icon>
+          Limpiar formulario
+        </b-button>
+      </b-button-group>
     </div>
+  </span>
+  <span>
+    <b-container class="body">
+      <table id="tabla-colilla"
+             class="table table-bordered table-striped table-sm">
+        <thead>
+          <tr>
+            <th style="max-width: 35px;" scope="col">Código</th>
+            <th class="d" scope="col">Ítem</th>
+            <th style="max-width: 30px;" scope="col">Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in colilla" :key="item">
+            <td>{{ item.codigo }}</td>
+            <td class="d">{{ item.item }}</td>
+            <td>{{ item.monto }}</td>
+          </tr>
+          <tr>
+            <td style="border-right: none;"></td>
+            <td class="text-right" style="border-left: none">
+              <b>Sueldo bruto:</b>
+            </td>
+            <td>
+              <b>{{ sueldoBruto }}</b>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </b-container>
   </span>
 </div>
 </template>
@@ -279,8 +285,8 @@ export default {
           info: 'El valor hora para calcular la Remuneración Básica Mínima Nacional para docentes '
             + 'en Chile depende del nivel en el que se desempeñe la o el docente.'
             + '<br>Para el año 2020 los valores son: '
-            + '<br><br><b>Enseñanza básica</b><br>$14.403'
-            + '<br><b>Enseñanza media</b><br>$15.155',
+            + '<p class="text-center"><br><b>Enseñanza básica</b><br>$14.403'
+            + '<br><b>Enseñanza media</b><br>$15.155</p>',
         },
         horasRegular: {
           id: 'horasRegular',
@@ -292,7 +298,7 @@ export default {
             + ' financiadas con la subvención regular;'
             + ' es decir, no son horas SEP, ni de reemplazo, '
             + ' ni PIE, etc.'
-            + ' <br>En su liquidación aparece en la parte'
+            + ' <br><br>En su liquidación aparece en la parte'
             + ' superior en<br><center>"<b>JORNADA: XX HRS</b>".</center>',
         },
         horasReemplazo: {
@@ -365,9 +371,9 @@ export default {
             + ' tiene dos niveles, dependiendo'
             + ' de la presencia o ausencia de una "mención" en el título profesional.'
             + ' <br>Los montos para contratos de 30 horas'
-            + ' o más, al año 2020 son:'
-            + ' <br><br><b>Sin mención</b><br>253.076'
-            + ' <br><b>Con mención</b><br>337.436',
+            + ' o más, al año 2020 son:<p class="text-center">'
+            + ' <br><b>Sin mención</b><br>253.076'
+            + ' <br><b>Con mención</b><br>337.436</p>',
         },
         prioritario60: {
           id: 'prioritario60',
@@ -532,13 +538,28 @@ export default {
       this.colilla[8].monto = asigPrio;
       this.sueldoBruto = sueldoBase + moviliz + asigPIE + BRP + asigDesPro + amplSEP
       + amplLicOtros + asigExper + asigPrio;
-      window.scrollTo({ top: window, behavior: 'smooth' });
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     },
     info(id, inner) {
       document.getElementById(id).innerHTML = inner;
     },
     handleHover(hovered) {
       this.isHovered = hovered;
+    },
+    onReset() {
+      const filas = this.filasPosibles;
+      filas[0].value = 14403;
+      filas[1].value = 0;
+      filas[2].value = 0;
+      filas[3].value = 0;
+      filas[4].value = 0;
+      filas[5].value = 0;
+      filas[6].value = 0;
+      filas[7].value = 0;
+      filas[8].value = 'Acceso';
+      filas[9].value = 0;
+      filas[10].value = 0;
+      filas[11].value = 0;
     },
   },
 };
